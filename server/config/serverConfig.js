@@ -33,20 +33,9 @@ var config = require('./config')[env];
 
 var daRouter = require('./routers/daRouter')(express, config);
 var rootRouter = require('./routers/rootRouter')(express);
+var uAuth = require('./../services/uAuth');
 
 //app.use(vhost('*.test.com', daRouter));
-
-//var checkAuth = function(req, res, next) {
-//  console.log(req.cookies.uauth);
-//  if (uAuth.uauth_check_uauth_string('id','pw',req.cookies.uauth) == 0) {
-//    next();
-//  }
-//  else {
-//    res.send(401, 'Unauthorized');
-//  }
-//};
-//app.use(uAuth.checkAuth);
-//app.use(checkAuth);
 
 //var authChecker = function(req, res, next) {
 //  if (req.method == 'GET' || req.method == 'HEAD') {
@@ -60,6 +49,12 @@ var rootRouter = require('./routers/rootRouter')(express);
 //};
 //
 //app.use(authChecker);
+var authChecker = function(req, req, next) {
+  console.log('Cookie : ', req.header('cookie'));
+//  console.log(uAuth.isAuthorized('id','pw', req.cookies.uauth));
+  next();
+};
+app.use(authChecker);
 
 app.use('/da', daRouter);
 app.use('/', rootRouter);

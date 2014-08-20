@@ -159,11 +159,9 @@ module.exports = function(config) {
     },
 
     getDataBases : function(req, res) {
-      console.log('1');
       dataBase.db.list(function(err, body) {
         res.send(body);
       });
-      console.log('2');
     },
 
     test : function(req, res) {
