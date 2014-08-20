@@ -35,7 +35,7 @@ var daRouter = require('./routers/daRouter')(express, config);
 var rootRouter = require('./routers/rootRouter')(express);
 
 //app.use(vhost('*.test.com', daRouter));
-var ffi = require('ffi'),
+var ffi = require('./../../node_modules/node-ffi/lib/ffi'),
     uAuth = ffi.Library('./../../ext/UAuth/UAuth', {
       // uauth_check_uauth_string
       // authorized req : 0, else return error code
