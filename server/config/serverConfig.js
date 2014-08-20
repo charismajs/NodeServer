@@ -35,25 +35,18 @@ var daRouter = require('./routers/daRouter')(express, config);
 var rootRouter = require('./routers/rootRouter')(express);
 
 //app.use(vhost('*.test.com', daRouter));
-var ffi = require('./../../node_modules/node-ffi/lib/ffi'),
-    uAuth = ffi.Library('./../../ext/UAuth/UAuth', {
-      // uauth_check_uauth_string
-      // authorized req : 0, else return error code
-      // arguments : key, secret, auth_string
-      'uauth_check_uauth_string':['int',['string','string','string']]
-    });
 
-var checkAuth = function(req, res, next) {
-  console.log(req.cookies.uauth);
-  if (uAuth.uauth_check_uauth_string('id','pw',req.cookies.uauth) == 0) {
-    next();
-  }
-  else {
-    res.send(401, 'Unauthorized');
-  }
-};
+//var checkAuth = function(req, res, next) {
+//  console.log(req.cookies.uauth);
+//  if (uAuth.uauth_check_uauth_string('id','pw',req.cookies.uauth) == 0) {
+//    next();
+//  }
+//  else {
+//    res.send(401, 'Unauthorized');
+//  }
+//};
 //app.use(uAuth.checkAuth);
-app.use(checkAuth);
+//app.use(checkAuth);
 
 //var authChecker = function(req, res, next) {
 //  if (req.method == 'GET' || req.method == 'HEAD') {
