@@ -3,18 +3,11 @@
  */
 var express = require('express'),
     cookieParser = require('cookie-parser'),
-    session = require('express-session'),
+//    session = require('express-session'),
     compression = require('compression'),
     morgan = require('morgan'),
     bodyParser = require('body-parser');
 
-//var ffi = require('ffi'),
-//    uAuth = ffi.Library('./UAuth', {
-//      // uauth_check_uauth_string
-//      // authorized req : 0, else return error code
-//      // arguments : key, secret, auth_string
-//      'uauth_check_uauth_string':['int',['string','string','string']]
-//    });
 
 var app = express();
 var server = require('http').createServer(app);
@@ -24,7 +17,7 @@ var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 app.use(compression());
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(session({secret: 'Node Server for What', resave: true, saveUninitialized: true}));
+//app.use(session({secret: 'Node Server for What', resave: true, saveUninitialized: true}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(bodyParser.text());
@@ -35,24 +28,9 @@ var daRouter = require('./routers/daRouter')(express, config);
 var rootRouter = require('./routers/rootRouter')(express);
 var uAuth = require('./../services/uAuth');
 
-//app.use(vhost('*.test.com', daRouter));
-
-//var authChecker = function(req, res, next) {
-//  if (req.method == 'GET' || req.method == 'HEAD') {
-//    console.log('By PASS : ' + req.method);
-//    next();
-//  }
-//  else {
-//    console.log('Reeeeejeeeeeect');
-//    res.send('Reject');
-//  }
-//};
-//
-//app.use(authChecker);
-var authChecker = function(req, req, next) {
-  console.log('Cookie : ', req.header('cookie'));
-//  console.log(uAuth.isAuthorized('id','pw', req.cookies.uauth));
-  next();
+var authChecker = function(req, res, next) {
+  if (uAuth.isAuthorized('pw', req.cookies.uauth)) next();
+  else res.status(401).send('Unauthorized');
 };
 app.use(authChecker);
 
@@ -64,9 +42,10 @@ var connected = false;
 var start = function() {
   server.listen(config.port, function() {
     connected = true;
-    console.log('===== Server running =====');
+    console.log('===== Server is running =====');
+    console.log("Server's IP : " + config.server);
     console.log('Listening on port ' + config.port);
-    console.log('==========================');
+    console.log('=============================');
   });
 };
 
