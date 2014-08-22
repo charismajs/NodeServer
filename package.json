@@ -19,10 +19,10 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "*",
-    "mocha": "*"
+    "mocha": "^1.21.4"
   },
   "directories": {
-    "test": "test"
+    "test": "test/**/*.js"
   },
   "dependencies": {
     "body-parser": "^1.6.5",

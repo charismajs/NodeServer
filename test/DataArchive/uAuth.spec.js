@@ -4,8 +4,8 @@ describe('Test for uAuth functions', function() {
 
   describe('Test isAuthorized function', function() {
     it('test split', function(done) {
-      var result = uAuth.isAuthorized('id', 'pw','test');
-      result.should.equal("");
+      var result = uAuth.isAuthorized('pw','test');
+      result.should.equal.false;
       done();
     });
   });
