@@ -44,3 +44,5 @@ var isAuthorized = function(secret, authString) {
 };
 
 exports.isAuthorized = isAuthorized;
+exports.createSignature = createSignature;
+exports.createTimeStamp = createTimeStamp;
