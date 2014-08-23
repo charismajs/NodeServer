@@ -6,7 +6,8 @@ var express = require('express'),
 //    session = require('express-session'),
     compression = require('compression'),
     morgan = require('morgan'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+  constants = require('./constants/daConstants');
 
 
 var app = express();
@@ -34,14 +35,11 @@ var authChecker = function(req, res, next) {
 };
 app.use(authChecker);
 
-app.use('/da', daRouter);
+app.use('/' + constants.servicePrefix, daRouter);
 app.use('/', rootRouter);
-
-var connected = false;
 
 var start = function() {
   server.listen(config.port, function() {
-    connected = true;
     console.log('\n========== Server is running ==========');
     console.log("Server's Info : " + config.server + ':' + config.port);
     console.log("Database's Info : " + config.db + ':' + config.db_port);
@@ -51,13 +49,11 @@ var start = function() {
 
 var close = function() {
   server.close();
-  connected = false;
 };
 
 exports.start = start;
 exports.close = close;
 exports.app = app;
-exports.connected = connected;
 
 
 

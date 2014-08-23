@@ -1,23 +1,25 @@
 /**
  * Created by charismajs on 2014-07-11.
  */
-var app = require('./../helper/app'),
-    config = require('./../../server/config/config')['development'],
-    request = require('supertest');
+var app = require('./../index/app'),
+  config = require('./../../server/config/config')['development'],
+  constants = require('./../../server/config/constants/daConstants'),
+  request = require('supertest');
+var common = require('./../helper/daCommon');
 
 describe('Test for Data Archive with CouchDB', function() {
-  var baseUrl = config.server + ':' + config.port + '/da';
+  var baseUrl = config.server + ':' + config.port + '/' + constants.servicePrefix;
   var dbName = 'testcase';
   var newDocument = { testAttribute: 'This is a test value.' };
 
-  before('Server', function(done) {
-    if (!app.server.connected) {
-      app.server.start();
-      done();
-    }
-  });
+//  before('Start Server', function(done) {
+//    if (!app.server.connected) {
+//      app.server.start();
+//      done();
+//    }
+//  });
 
-//  after(function(done) {
+//  after('Clean up test data', function(done) {
 //    request(baseUrl)
 //        .post('/' + dbName + '/_purge')
 //        .expect(200)
@@ -27,18 +29,20 @@ describe('Test for Data Archive with CouchDB', function() {
 //          done();
 //        });
 //  });
-
   it('should return a new db', function(done) {
+    var authString = common.getAuthString();
+
     request(baseUrl)
-        .put('/' + dbName)
-        .expect(201)
-        .end(function(err, res) {
+      .put('/' + dbName)
+      .set('Cookie', "uauth=" + authString)
+      .expect(201)
+      .end(function(err, res) {
 //          console.log('err : ', err);
 //          console.log(res);
-          var result = res.body;
-          result.ok.should.equal(true);
-          done();
-        });
+        var result = res.body;
+        result.ok.should.equal(true);
+        done();
+      });
   });
 
 //  it('should return a inserted document', function(done) {

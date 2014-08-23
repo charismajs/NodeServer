@@ -1,4 +1,5 @@
 module.exports = {
+  servicePrefix: 'da',
   uAuth: {
     validDuration: 30,
     version: '1.0'
