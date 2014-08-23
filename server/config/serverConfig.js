@@ -42,10 +42,11 @@ var connected = false;
 var start = function() {
   server.listen(config.port, function() {
     connected = true;
-    console.log('===== Server is running =====');
+    console.log('\n======== Server is running ========');
     console.log("Server's IP : " + config.server);
     console.log('Listening on port ' + config.port);
-    console.log('=============================');
+    console.log("Database's IP : " + config.db + ':' + config.db_port);
+    console.log('===================================\n');
   });
 };
 

@@ -4,8 +4,7 @@
 var nano = require('nano');
 
 module.exports = function(config) {
-  var dbUri = config.db + ':' + config.db_port;
-//  var dbUri = 'http://admin:admin@192.168.246.11:5984'; // for testing
+  var dbUri = 'http://' + config.db + ':' + config.db_port;
   var dataBase = nano(dbUri);
 
   var functions = {
@@ -109,7 +108,6 @@ module.exports = function(config) {
     },
 
     compactDatabase : function(req, res) {
-      console.log('in CompactDatabase');
       var db = dataBase.use(req.params.dbName);
 
       db.compact(req.params.dbName, function(err, body) {
@@ -162,19 +160,7 @@ module.exports = function(config) {
       dataBase.db.list(function(err, body) {
         res.send(body);
       });
-    },
-
-    test : function(req, res) {
-      console.log('in test');
-
-      if (req.method == 'GET' || req.method == 'HEAD') {
-        console.log('METHOD : ' + req.method);
-      }
-      else {
-        res.send(404, 'Reject');
-      }
     }
-
   };
 
   return functions;

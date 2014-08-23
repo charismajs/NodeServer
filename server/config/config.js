@@ -4,22 +4,21 @@
 var ip = require('ip');
 var path = require('path');
 var rootPath = path.normalize(__dirname + '/../../');
+var constants = require('./constants/daConstants');
 
 module.exports = {
   development: {
-//    server: 'http://192.168.246.10:5984', // youngmin
-    server: ip.address(), // jinsu
+    server: ip.address(),
     port: process.env.PORT || 3030,
-    db: 'http://192.168.246.10', // youngmin
-//    db: 'http://192.168.246.11', // jinsu
-    db_port: '5984',
+    db: constants.database.ip, // youngmin
+    db_port: constants.database.port,
     rootPath: rootPath
   },
   production: {
-    server: '',
-    port: '',
-    db: '',
-    db_port: '',
+    server: ip.address(),
+    port: process.env.PORT || 3030,
+    db: constants.database.ip, // youngmin
+    db_port: constants.database.port,
     rootPath: rootPath
   }
 };
