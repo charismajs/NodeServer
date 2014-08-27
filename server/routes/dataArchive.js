@@ -26,7 +26,7 @@ module.exports = function(config) {
         db.attachment.insert(
             req.params.docID, encodeURIComponent(req.params.attName), resource, req.header('Content-Type'), {rev: req.query.rev}, function(err, body) {
               if (err) {
-                res.status(err.status_code).send(err);
+                res.status(err.status_code || 500).send(err);
               }
               else {
                 res.send(body);
@@ -56,7 +56,7 @@ module.exports = function(config) {
 
       db.get(req.params.docID, req.query.rev ? {rev: req.query.rev} : null, function(err, body) {
         if (err) {
-          res.status(err.status_code).send(err);
+          res.status(err.status_code || 500).send(err);
         }
         else {
           res.send(body);
@@ -74,7 +74,7 @@ module.exports = function(config) {
 
       db.insert(doc, req.params.docID, function(err, body) {
         if (err) {
-          res.status(err.status_code).send(err);
+          res.status(err.status_code || 500).send(err);
         }
         else {
           res.send(body);
@@ -99,7 +99,7 @@ module.exports = function(config) {
 
       db.compact(req.params.dbName, req.params.dDocName, function(err, body) {
         if (err) {
-          res.status(err.status_code).send(err);
+          res.status(err.status_code || 500).send(err);
         }
         else {
           res.send(body);
@@ -112,7 +112,7 @@ module.exports = function(config) {
 
       db.compact(req.params.dbName, function(err, body) {
         if (err) {
-          res.send(err.status_code, err);
+          res.status(err.status_code || 500).send(err);
         }
         else {
           res.send(body);
@@ -123,7 +123,7 @@ module.exports = function(config) {
     purgeDatabase : function(req, res) {
       dataBase.db.destroy(req.params.dbName, function(err, body) {
         if (err) {
-          res.status(err.status_code).send(err);
+          res.status(err.status_code || 500).send(err);
         }
         else {
           res.send(body);
@@ -134,7 +134,7 @@ module.exports = function(config) {
     createDatabase : function(req, res) {
       dataBase.db.create(req.params.dbName, function(err, body) {
         if (err) {
-          res.status(err.status_code).send(err);
+          res.status(err.status_code || 500).send(err);
         }
         else {
           res.send(body);
@@ -148,7 +148,7 @@ module.exports = function(config) {
 
       db.insert(doc, function(err, body) {
         if (err) {
-          res.status(err.status_code).send(err);
+          res.status(err.status_code || 500).send(err);
         }
         else {
           res.send(body);
@@ -158,7 +158,12 @@ module.exports = function(config) {
 
     getDataBases : function(req, res) {
       dataBase.db.list(function(err, body) {
-        res.send(body);
+        if (err) {
+          res.status(err.status_code || 500).send(err);
+        }
+        else {
+          res.send(body);
+        }
       });
     }
   };
