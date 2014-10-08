@@ -13,13 +13,6 @@ describe('Test for Data Archive with CouchDB', function() {
   var newDocument = { testAttribute: 'This is a test value.' };
   var authString = common.getAuthString();
 
-//  before('Start Server', function(done) {
-//    if (!app.server.connected) {
-//      app.server.start();
-//      done();
-//    }
-//  });
-
   after('Clean up test data', function(done) {
     request(baseUrl)
       .post('/' + dbName + '/_purge')
@@ -56,5 +49,20 @@ describe('Test for Data Archive with CouchDB', function() {
         result.ok.should.equal(true);
         done();
       });
+  });
+
+  it('should return a list of database', function(done) {
+    request(baseUrl)
+      .get('/' + dbName + '/_all_docs')
+      .expect(200)
+      .end(function(err, res) {
+        var result = res.body;
+        // TODO : add test code
+        done();
+      });
+  });
+
+  it('should return a head of document', function(done) {
+    done();
   });
 });
