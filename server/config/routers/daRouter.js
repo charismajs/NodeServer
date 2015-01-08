@@ -9,6 +9,9 @@ module.exports = function(express, config) {
 
 //  router.all('*', auth.isAuthorized, next);
 
+  router.route('/:dbName/_design/:designName/_view/:viewName')
+    .get(da.getDesignView);
+
   router.route('/:dbName/:docID/:attName')
       .get(da.getAttachment)
       .put(da.insertAttachment);

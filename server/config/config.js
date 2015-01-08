@@ -10,14 +10,14 @@ module.exports = {
   development: {
     server: ip.address(),
     port: process.env.PORT || 3030,
-    db: constants.database.ip, // youngmin
+    db: constants.database.ip,
     db_port: constants.database.port,
     rootPath: rootPath
   },
   production: {
     server: ip.address(),
     port: process.env.PORT || 3030,
-    db: constants.database.ip, // youngmin
+    db: constants.database.ip,
     db_port: constants.database.port,
     rootPath: rootPath
   }
